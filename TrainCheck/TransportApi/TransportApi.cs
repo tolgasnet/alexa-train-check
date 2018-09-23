@@ -28,7 +28,7 @@ namespace TrainCheck.TransportApi
             var homeCode = _stationSettings.GetCode(from);
             var destinationCode = _stationSettings.GetCode(destination);
 
-            App.Log($"Destination name: {destination}, code: {destinationCode}");
+            Logger.Log($"Destination name: {destination}, code: {destinationCode}");
 
             var uri = GetUrl(homeCode, destinationCode);
 
@@ -48,13 +48,13 @@ namespace TrainCheck.TransportApi
 
         private static TrainResponse GetResponse(Uri uri)
         {
-            App.Log("Preparing http request");
+            Logger.Log("Preparing http request");
 
             var client = new HttpClient();
 
             var response = client.GetAsync(uri).Result;
 
-            App.Log($"Received http response. Response status code: {response.StatusCode}");
+            Logger.Log($"Received http response. Response status code: {response.StatusCode}");
 
             var responseContent = response.Content.ReadAsStringAsync().Result;
 

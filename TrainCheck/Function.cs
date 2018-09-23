@@ -11,7 +11,7 @@ namespace TrainCheck
     {
         public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
         {
-            App.Logger = context.Logger;
+            Logger.Instance = context.Logger;
 
             var alexaSkill = ServiceContainer.GetOrCreate<AlexaSkill>();
 

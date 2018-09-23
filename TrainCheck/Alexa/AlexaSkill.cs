@@ -17,7 +17,7 @@ namespace TrainCheck.Alexa
         public SkillResponse Process(SkillRequest input)
         {
             var requestType = input.GetRequestType();
-            App.Log($"Received skill request, type: {requestType.Name}");
+            Logger.Log($"Received skill request, type: {requestType.Name}");
 
             if (requestType == typeof(LaunchRequest))
             {
@@ -36,7 +36,7 @@ namespace TrainCheck.Alexa
         {
             var intentName = intentRequest.Intent.Name.ToLower();
 
-            App.Log($"Received intent request {intentName}");
+            Logger.Log($"Received intent request {intentName}");
 
             if (intentName == "livetimetableintent")
             {

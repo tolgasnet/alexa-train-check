@@ -53,7 +53,7 @@ namespace TrainCheck.Alexa
                     $"<speak>There are no trains to {destinationName} at the moment</speak>"
             };
 
-            App.Log($"Returning speech: `{speech.Ssml}`");
+            Logger.Log($"Returning speech: `{speech.Ssml}`");
 
             return ResponseBuilder.Tell(speech);
         }
