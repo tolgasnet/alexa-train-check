@@ -7,15 +7,15 @@ using TrainCheck.Alexa;
 
 namespace TrainCheck
 {
-	public class Function
+    public class Function
     {
         public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
         {
-	        App.Logger = context.Logger;
+            App.Logger = context.Logger;
 
-	        var alexaSkill = ServiceContainer.GetOrCreate<AlexaSkill>();
+            var alexaSkill = ServiceContainer.GetOrCreate<AlexaSkill>();
 
-	        return alexaSkill.Process(input);
+            return alexaSkill.Process(input);
         }
-	}
+    }
 }

@@ -5,47 +5,47 @@ using Alexa.NET.Response;
 
 namespace TrainCheck.Alexa
 {
-	public class AlexaSkill
-	{
-		private readonly IAlexaSpeech _alexaSpeech;
+    public class AlexaSkill
+    {
+        private readonly IAlexaSpeech _alexaSpeech;
 
-		public AlexaSkill(IAlexaSpeech alexaSpeech)
-		{
-			_alexaSpeech = alexaSpeech;
-		}
+        public AlexaSkill(IAlexaSpeech alexaSpeech)
+        {
+            _alexaSpeech = alexaSpeech;
+        }
 
-		public SkillResponse Process(SkillRequest input)
-		{
-			var requestType = input.GetRequestType();
-			App.Log($"Received skill request, type: {requestType.Name}");
+        public SkillResponse Process(SkillRequest input)
+        {
+            var requestType = input.GetRequestType();
+            App.Log($"Received skill request, type: {requestType.Name}");
 
-			if (requestType == typeof(LaunchRequest))
-			{
-				return _alexaSpeech.TellTimeTable();
-			}
+            if (requestType == typeof(LaunchRequest))
+            {
+                return _alexaSpeech.TellTimeTable();
+            }
 
-			if (requestType == typeof(IntentRequest))
-			{
-				return IntentResponse(input.Request as IntentRequest);
-			}
+            if (requestType == typeof(IntentRequest))
+            {
+                return IntentResponse(input.Request as IntentRequest);
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		private SkillResponse IntentResponse(IntentRequest intentRequest)
-		{
-			var intentName = intentRequest.Intent.Name.ToLower();
+        private SkillResponse IntentResponse(IntentRequest intentRequest)
+        {
+            var intentName = intentRequest.Intent.Name.ToLower();
 
-			App.Log($"Received intent request {intentName}");
+            App.Log($"Received intent request {intentName}");
 
-			if (intentName == "livetimetableintent")
-			{
-				var destinationStationName = intentRequest.Intent.Slots["Stations"].Value;
+            if (intentName == "livetimetableintent")
+            {
+                var destinationStationName = intentRequest.Intent.Slots["Stations"].Value;
 
-				return _alexaSpeech.TellTimeTable(destinationStationName);
-			}
+                return _alexaSpeech.TellTimeTable(destinationStationName);
+            }
 
-			return ResponseBuilder.Empty();
-		}
-	}
+            return ResponseBuilder.Empty();
+        }
+    }
 }
