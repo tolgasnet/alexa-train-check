@@ -1,4 +1,6 @@
 using System.IO;
+using Amazon;
+using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TrainCheck.Alexa;
@@ -44,6 +46,8 @@ namespace TrainCheck
             services.AddSingleton<TrainStationSettings>(configuration, "TrainStations");
             services.AddSingleton<TransportApiSettings>(configuration, "TransportApi",
                 t => t.AppKey = configuration.GetValue<string>("Env_TransportApi_AppKey"));
+
+            AWSXRayRecorder.InitializeInstance(configuration);
         }
     }
 }

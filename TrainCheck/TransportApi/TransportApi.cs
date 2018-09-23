@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Amazon.XRay.Recorder.Core;
 using Newtonsoft.Json;
 using TrainCheck.Config;
 
@@ -52,7 +53,11 @@ namespace TrainCheck.TransportApi
 
             var client = new HttpClient();
 
+            AWSXRayRecorder.Instance.BeginSubsegment("TransportApi");
+
             var response = client.GetAsync(uri).Result;
+
+            AWSXRayRecorder.Instance.EndSubsegment();
 
             Logger.Log($"Received http response. Response status code: {response.StatusCode}");
 
