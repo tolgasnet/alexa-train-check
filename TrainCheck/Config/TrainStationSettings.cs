@@ -7,6 +7,7 @@ namespace TrainCheck.Config
         public string DefaultHome { get; set; }
         public string DefaultDestination { get; set; }
         public int NumberOfServices { get; set; }
+        public int WalkingTimeInMinutes { get; set; }
         public IReadOnlyDictionary<string, string> Stations { get; set; }
 
         public string GetCode(string name)

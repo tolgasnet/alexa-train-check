@@ -17,7 +17,10 @@ namespace TrainCheck.Alexa
         public SkillResponse Process(SkillRequest input)
         {
             var requestType = input.GetRequestType();
-            Logger.Log($"Received skill request, type: {requestType.Name}");
+            Logger.Log(
+                $"Received request, type: {requestType.Name}, " +
+                $"applicationid:{input.Session.Application.ApplicationId}, " +
+                $"userid:{input.Session.User.UserId}");
 
             if (requestType == typeof(LaunchRequest))
             {

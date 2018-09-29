@@ -41,7 +41,7 @@ namespace TrainCheck.Alexa
         {
             var updates = liveDepartures.Select(d => $"{d.ExpectedDepartureTime} {d.ImportantStatus()}").ToList();
 
-            var trains = string.Join(" and then at. ", updates);
+            var trains = string.Join(", ", updates);
 
             var pluralNoun = updates.Count > 1 ? "s" : string.Empty;
             var verb = updates.Count > 1 ? "are" : "is";
