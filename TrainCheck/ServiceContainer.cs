@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
-using Amazon;
+using System.Linq;
 using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,15 @@ namespace TrainCheck
 {
     public static class ServiceContainer
     {
+        public static bool IsXRayEnabled() => NonLocal.Contains(_environmentName);
+        private static string _environmentName = "localhost";
         private static ServiceProvider _serviceProvider;
+
+        private static readonly IEnumerable<string> NonLocal = new List<string> {
+            "dev",
+            "test",
+            "prod"
+        };
 
         public static T GetOrCreate<T>()
         {
@@ -46,6 +55,8 @@ namespace TrainCheck
             services.AddSingleton<TrainStationSettings>(configuration, "TrainStations");
             services.AddSingleton<TransportApiSettings>(configuration, "TransportApi",
                 t => t.AppKey = configuration.GetValue<string>("Env_TransportApi_AppKey"));
+
+            _environmentName = System.Environment.GetEnvironmentVariable("Env_EnvironmentName");
 
             AWSXRayRecorder.InitializeInstance(configuration);
         }

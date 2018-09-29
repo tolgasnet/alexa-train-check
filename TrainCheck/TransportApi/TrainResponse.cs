@@ -36,7 +36,7 @@ namespace TrainCheck.TransportApi
                 "OFF ROUTE"
             };
 
-            return importantStatus.Contains(Status) ? Status : string.Empty;
+            return importantStatus.Contains(Status) ? Status + " " : string.Empty;
         }
     }
 }

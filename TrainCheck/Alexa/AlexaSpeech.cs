@@ -23,7 +23,7 @@ namespace TrainCheck.Alexa
             _stationSettings = stationSettings;
         }
 
-        public SkillResponse TellTimeTable(string destinationName)
+        public SkillResponse TellTimeTable(string destinationName = null)
         {
             if (string.IsNullOrEmpty(destinationName))
             {
@@ -39,7 +39,7 @@ namespace TrainCheck.Alexa
 
         private static SkillResponse GetDepartures(string destinationName, IList<Departure> liveDepartures)
         {
-            var updates = liveDepartures.Select(d => $"{d.ExpectedDepartureTime} {d.ImportantStatus()}").ToList();
+            var updates = liveDepartures.Select(d => $"{d.ExpectedDepartureTime}{d.ImportantStatus()}").ToList();
 
             var trains = string.Join(", ", updates);
 
@@ -49,7 +49,7 @@ namespace TrainCheck.Alexa
             var speech = new SsmlOutputSpeech
             {
                 Ssml = liveDepartures.Any() ?
-                    $"<speak>Your next train{pluralNoun} to {destinationName} {verb} at. {trains}</speak>" :
+                    $"<speak>Your next train{pluralNoun} to {destinationName} {verb} at: {trains}</speak>" :
                     $"<speak>There are no trains to {destinationName} at the moment</speak>"
             };
 
