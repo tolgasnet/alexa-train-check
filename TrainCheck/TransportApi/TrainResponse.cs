@@ -10,10 +10,7 @@ namespace TrainCheck.TransportApi
 
         public IList<Departure> GetLiveDepartures(int count)
         {
-            var departuresAll = Departures.All;
-            var activeDepartures = departuresAll.Where(d => !d.IsCancelled());
-
-            return activeDepartures.Take(count).ToList();
+            return Departures.All.Take(count).ToList();
         }
     }
 
@@ -29,9 +26,17 @@ namespace TrainCheck.TransportApi
 
         public string Status { get; set; }
 
-        public bool IsCancelled()
+        public string ImportantStatus()
         {
-            return Status == "CANCELLED";
+            var importantStatus = new[]
+            {
+                "LATE",
+                "CANCELLED",
+                "NO REPORT",
+                "OFF ROUTE"
+            };
+
+            return importantStatus.Contains(Status) ? Status : string.Empty;
         }
     }
 }
