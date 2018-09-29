@@ -1,13 +1,11 @@
-using Alexa.NET.Request;
+﻿using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Amazon.Lambda.Core;
 using TrainCheck.Alexa;
 
-[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-
-namespace TrainCheck
+namespace TrainCheck.Tests.EndToEnd
 {
-    public class Function
+    public class TestFunction
     {
         public SkillResponse FunctionHandler(SkillRequest request, ILambdaContext context)
         {

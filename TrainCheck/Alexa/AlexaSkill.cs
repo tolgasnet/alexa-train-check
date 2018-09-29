@@ -2,6 +2,7 @@ using Alexa.NET;
 using Alexa.NET.Request;
 using Alexa.NET.Request.Type;
 using Alexa.NET.Response;
+using Amazon.Lambda.Core;
 
 namespace TrainCheck.Alexa
 {
@@ -14,8 +15,10 @@ namespace TrainCheck.Alexa
             _alexaSpeech = alexaSpeech;
         }
 
-        public SkillResponse Process(SkillRequest input)
+        public SkillResponse Process(SkillRequest input, ILambdaContext context)
         {
+            Logger.Instance = context.Logger;
+
             var requestType = input.GetRequestType();
             Logger.Log(
                 $"Received request, type: {requestType.Name}, " +

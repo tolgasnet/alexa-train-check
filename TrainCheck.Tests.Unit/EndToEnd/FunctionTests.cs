@@ -10,12 +10,12 @@ namespace TrainCheck.Tests.EndToEnd
 {
     public class FunctionTests
     {
-        private readonly Function _function;
+        private readonly TestFunction _function;
         private readonly SkillRequest _anyLaunchRequest;
 
         public FunctionTests()
         {
-            _function = new Function();
+            _function = new TestFunction();
             _anyLaunchRequest = new SkillRequest
             {
                 Request = new LaunchRequest(),

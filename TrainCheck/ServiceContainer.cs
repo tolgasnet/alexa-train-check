@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,26 +24,27 @@ namespace TrainCheck
             "prod"
         };
 
-        public static T GetOrCreate<T>()
+        public static T GetOrCreate<T>(Action<IServiceCollection> additionalBindings = null)
         {
-            _environmentName = System.Environment.GetEnvironmentVariable("Env_EnvironmentName");
+            _environmentName = Environment.GetEnvironmentVariable("Env_EnvironmentName");
 
             if (_serviceProvider == null)
             {
-                _serviceProvider = BuildProvider();
+                _serviceProvider = BuildProvider(additionalBindings);
             }
             return _serviceProvider.GetService<T>();
         }
 
-        private static ServiceProvider BuildProvider()
+        private static ServiceProvider BuildProvider(Action<IServiceCollection> additionalBindings)
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            var services = new ServiceCollection();
+            ConfigureServices(services, additionalBindings);
 
-            return serviceCollection.BuildServiceProvider();
+            return services.BuildServiceProvider();
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services,
+            Action<IServiceCollection> additionalBindings)
         {
             services.AddScoped<IAlexaSpeech, AlexaSpeech>();
             services.AddScoped<ITransportApi, TransportApi.TransportApi>();
@@ -60,6 +62,8 @@ namespace TrainCheck
                 t => t.AppKey = configuration.GetValue<string>("Env_TransportApi_AppKey"));
 
             AWSXRayRecorder.InitializeInstance(configuration);
+
+            additionalBindings?.Invoke(services);
         }
     }
 }
