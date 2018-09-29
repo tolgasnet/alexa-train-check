@@ -13,10 +13,11 @@ namespace TrainCheck
     public static class ServiceContainer
     {
         public static bool IsXRayEnabled() => NonLocal.Contains(_environmentName);
-        private static string _environmentName = "localhost";
+        private static string _environmentName = "local";
         private static ServiceProvider _serviceProvider;
 
-        private static readonly IEnumerable<string> NonLocal = new List<string> {
+        private static readonly IEnumerable<string> NonLocal = new List<string>
+        {
             "dev",
             "test",
             "prod"
@@ -24,6 +25,8 @@ namespace TrainCheck
 
         public static T GetOrCreate<T>()
         {
+            _environmentName = System.Environment.GetEnvironmentVariable("Env_EnvironmentName");
+
             if (_serviceProvider == null)
             {
                 _serviceProvider = BuildProvider();
@@ -55,8 +58,6 @@ namespace TrainCheck
             services.AddSingleton<TrainStationSettings>(configuration, "TrainStations");
             services.AddSingleton<TransportApiSettings>(configuration, "TransportApi",
                 t => t.AppKey = configuration.GetValue<string>("Env_TransportApi_AppKey"));
-
-            _environmentName = System.Environment.GetEnvironmentVariable("Env_EnvironmentName");
 
             AWSXRayRecorder.InitializeInstance(configuration);
         }
