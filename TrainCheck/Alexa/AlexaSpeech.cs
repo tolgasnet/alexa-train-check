@@ -30,7 +30,7 @@ namespace TrainCheck.Alexa
                 destinationName = _stationSettings.DefaultDestination;
             }
 
-            var liveTrainResponse = _transportApi.Get(destinationName, _stationSettings.DefaultHome);
+            var liveTrainResponse = _transportApi.Get(_stationSettings.DefaultHome, destinationName);
 
             var liveDepartures = liveTrainResponse.GetLiveDepartures(_stationSettings.NumberOfServices);
 
