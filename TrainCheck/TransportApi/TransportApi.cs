@@ -29,7 +29,7 @@ namespace TrainCheck.TransportApi
             var homeCode = _stationSettings.GetCode(from);
             var destinationCode = _stationSettings.GetCode(destination);
 
-            Logger.Log($"Destination name: {destination}, code: {destinationCode}");
+            Logger.Log($"Fetching services from {from}({homeCode}) to {destination}({destinationCode})");
 
             var uri = GetUrl(homeCode, destinationCode);
 
@@ -54,6 +54,8 @@ namespace TrainCheck.TransportApi
             var client = new HttpClient();
 
             AWSXRayRecorder.Instance.BeginSubsegment("TransportApi");
+
+            Logger.Log($"Sending transportApi request: {uri}");
 
             var response = client.GetAsync(uri).Result;
 
