@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Unit\**" />
+    <EmbeddedResource Remove="Unit\**" />
+    <None Remove="Unit\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
@@ -15,10 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrainCheck\TrainCheck.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Unit\" />
   </ItemGroup>
 
 </Project>
