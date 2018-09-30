@@ -77,6 +77,21 @@ namespace TrainCheck.Tests.Component
             speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:45, 14:00</speak>");
         }
 
+        [Fact]
+        public void SelectedRouteEmpty()
+        {
+            MockHttpClient.SetEmptyResponse();
+
+            var intentRequest = CreateIntent("victoria");
+
+            var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
+
+            var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
+
+            speech.Should().NotBeNull();
+            speech.Ssml.Should().Be("<speak>There are no trains to victoria at the moment</speak>");
+        }
+
         private SkillRequest Create(Request request)
         {
             return new SkillRequest

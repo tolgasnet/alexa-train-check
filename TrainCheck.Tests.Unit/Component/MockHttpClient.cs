@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TrainCheck.Infrastructure;
 using TrainCheck.TransportApi;
 
@@ -36,6 +37,11 @@ namespace TrainCheck.Tests.Component
                 new Departure(expected: "13:45", aimed: "13:45"),
                 new Departure(expected: "13:45", aimed: "13:45"),
                 new Departure(expected: "14:00", aimed: "14:00"));
+        }
+
+        public static void SetEmptyResponse()
+        {
+            Create();
         }
 
         private static void Create(params Departure[] departures)
