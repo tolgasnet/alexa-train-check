@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -10,7 +11,9 @@ namespace TrainCheck.TransportApi
 
         public IList<Departure> GetLiveDepartures(int count)
         {
-            return Departures.All.Take(count).ToList();
+            var departuresAll = Departures.All;
+            var distinctDepartures = departuresAll.Distinct();
+            return distinctDepartures.Take(count).ToList();
         }
     }
 
@@ -19,7 +22,7 @@ namespace TrainCheck.TransportApi
         public IEnumerable<Departure> All { get; set; }
     }
 
-    public class Departure
+    public class Departure : IEquatable<Departure>
     {
         [JsonProperty("expected_departure_time")]
         public string ExpectedDepartureTime { get; set; }
@@ -44,7 +47,7 @@ namespace TrainCheck.TransportApi
             return ExpectedDepartureTime ?? AimedDepartureTime;
         }
 
-        public string ImportantStatus()
+        public string GetStatus()
         {
             var importantStatus = new[]
             {
@@ -55,6 +58,23 @@ namespace TrainCheck.TransportApi
             };
 
             return importantStatus.Contains(Status) ? " " + Status : string.Empty;
+        }
+
+        public bool Equals(Departure other)
+        {
+            if (other == null) return false;
+
+            return GetTime() == other.GetTime() && GetStatus() == other.GetStatus();
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (GetTime() != null ? GetTime().GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (GetStatus() != null ? GetStatus().GetHashCode() : 0);
+                return hashCode;
+            }
         }
     }
 }

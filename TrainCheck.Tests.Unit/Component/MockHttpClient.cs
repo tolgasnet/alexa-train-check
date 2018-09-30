@@ -29,6 +29,15 @@ namespace TrainCheck.Tests.Component
                 new Departure(expected: "13:45", aimed: "13:45"));
         }
 
+        public static void SetDuplicateResponse()
+        {
+            Create(
+                new Departure(expected: "13:00", aimed: "13:00"),
+                new Departure(expected: "13:45", aimed: "13:45"),
+                new Departure(expected: "13:45", aimed: "13:45"),
+                new Departure(expected: "14:00", aimed: "14:00"));
+        }
+
         private static void Create(params Departure[] departures)
         {
             _expectedResponse = new TrainResponse
