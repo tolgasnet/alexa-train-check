@@ -37,14 +37,9 @@ namespace TrainCheck.Tests.Component
         {
             MockHttpClient.SetSuccessfulResponse();
 
-            var intentRequest = CreateIntent("victoria");
+            var speech = RunFunction("victoria");
 
-            var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
-
-            var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
-
-            speech.Should().NotBeNull();
-            speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15, 13:45</speak>");
+            speech.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15, 13:45</speak>");
         }
 
         [Fact]
@@ -52,14 +47,9 @@ namespace TrainCheck.Tests.Component
         {
             MockHttpClient.SetCancelledResponse();
 
-            var intentRequest = CreateIntent("victoria");
+            var speech = RunFunction("victoria");
 
-            var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
-
-            var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
-
-            speech.Should().NotBeNull();
-            speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15 CANCELLED, 13:45</speak>");
+            speech.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15 CANCELLED, 13:45</speak>");
         }
 
         [Fact]
@@ -67,14 +57,9 @@ namespace TrainCheck.Tests.Component
         {
             MockHttpClient.SetDuplicateResponse();
 
-            var intentRequest = CreateIntent("victoria");
+            var speech = RunFunction("victoria");
 
-            var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
-
-            var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
-
-            speech.Should().NotBeNull();
-            speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:45, 14:00</speak>");
+            speech.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:45, 14:00</speak>");
         }
 
         [Fact]
@@ -82,14 +67,22 @@ namespace TrainCheck.Tests.Component
         {
             MockHttpClient.SetEmptyResponse();
 
-            var intentRequest = CreateIntent("victoria");
+            var speech = RunFunction("victoria");
+
+            speech.Should().Be("<speak>There are no trains to victoria at the moment</speak>");
+        }
+
+        private string RunFunction(string destination)
+        {
+            var intentRequest = CreateIntent(destination);
 
             var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
 
             var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
 
             speech.Should().NotBeNull();
-            speech.Ssml.Should().Be("<speak>There are no trains to victoria at the moment</speak>");
+
+            return speech.Ssml;
         }
 
         private SkillRequest Create(Request request)
