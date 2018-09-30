@@ -40,7 +40,7 @@ namespace TrainCheck.Alexa
 
         private static SkillResponse GetDepartures(string destinationName, IList<Departure> liveDepartures)
         {
-            var updates = liveDepartures.Select(d => $"{d.ExpectedDepartureTime}{d.ImportantStatus()}").ToList();
+            var updates = liveDepartures.Select(d => $"{d.GetTime()}{d.ImportantStatus()}").ToList();
 
             var trains = string.Join(", ", updates);
 

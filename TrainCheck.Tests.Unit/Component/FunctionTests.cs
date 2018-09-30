@@ -16,20 +16,14 @@ namespace TrainCheck.Tests.Component
         public FunctionTests()
         {
             _function = new TestFunction();
-            _anyLaunchRequest = new SkillRequest
-            {
-                Request = new LaunchRequest(),
-                Session = new Session
-                {
-                    Application = new Application(),
-                    User = new User()
-                }
-            };
+            _anyLaunchRequest = Create(new LaunchRequest());
         }
 
         [Fact]
-        public void LaunchTest()
+        public void FavouriteRouteOnTime()
         {
+            MockHttpClient.SetSuccessfulResponse();
+
             var response = _function.FunctionHandler(_anyLaunchRequest, new TestLambdaContext());
 
             var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
@@ -39,30 +33,11 @@ namespace TrainCheck.Tests.Component
         }
 
         [Fact]
-        public void LiveTimetableIntentTest()
+        public void SelectedRouteOnTime()
         {
-            var intentRequest = new SkillRequest
-            {
-                Request = new IntentRequest
-                {
-                    Intent = new Intent
-                    {
-                        Name = "livetimetableintent",
-                        Slots = new Dictionary<string, Slot>
-                        {
-                            {"Stations", new Slot
-                            {
-                                Value = "victoria"
-                            }}
-                        }
-                    }
-                },
-                Session = new Session
-                {
-                    Application = new Application(),
-                    User = new User()
-                }
-            };
+            MockHttpClient.SetSuccessfulResponse();
+
+            var intentRequest = CreateIntent("victoria");
 
             var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
 
@@ -70,6 +45,54 @@ namespace TrainCheck.Tests.Component
 
             speech.Should().NotBeNull();
             speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15, 13:45</speak>");
+        }
+
+        [Fact]
+        public void SelectedRouteCancelled()
+        {
+            MockHttpClient.SetCancelledResponse();
+
+            var intentRequest = CreateIntent("victoria");
+
+            var response = _function.FunctionHandler(intentRequest, new TestLambdaContext());
+
+            var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
+
+            speech.Should().NotBeNull();
+            speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15 CANCELLED, 13:45</speak>");
+        }
+
+        private SkillRequest Create(Request request)
+        {
+            return new SkillRequest
+            {
+                Request = request,
+                Session = new Session
+                {
+                    Application = new Application(),
+                    User = new User()
+                }
+            };
+        }
+
+        private SkillRequest CreateIntent(string destination)
+        {
+            return Create(new IntentRequest
+            {
+                Intent = new Intent
+                {
+                    Name = "livetimetableintent",
+                    Slots = new Dictionary<string, Slot>
+                    {
+                        {
+                            "Stations", new Slot
+                            {
+                                Value = destination
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }
