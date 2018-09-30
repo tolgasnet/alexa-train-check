@@ -7,7 +7,7 @@ using TrainCheck.Infrastructure;
 
 namespace TrainCheck.Tests.Component
 {
-    public class TestFunction
+    public class Function
     {
         public SkillResponse FunctionHandler(SkillRequest request, ILambdaContext context)
         {

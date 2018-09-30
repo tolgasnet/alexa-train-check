@@ -10,12 +10,12 @@ namespace TrainCheck.Tests.Component
 {
     public class FunctionTests
     {
-        private readonly TestFunction _function;
+        private readonly Function _function;
         private readonly SkillRequest _anyLaunchRequest;
 
         public FunctionTests()
         {
-            _function = new TestFunction();
+            _function = new Function();
             _anyLaunchRequest = Create(new LaunchRequest());
         }
 
