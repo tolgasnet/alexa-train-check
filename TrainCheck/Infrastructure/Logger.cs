@@ -1,6 +1,6 @@
 ﻿using Amazon.Lambda.Core;
 
-namespace TrainCheck
+namespace TrainCheck.Infrastructure
 {
     public static class Logger
     {

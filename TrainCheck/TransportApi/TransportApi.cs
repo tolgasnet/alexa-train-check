@@ -1,7 +1,6 @@
 using System;
-using System.Net.Http;
-using Newtonsoft.Json;
 using TrainCheck.Config;
+using TrainCheck.Infrastructure;
 
 namespace TrainCheck.TransportApi
 {
@@ -12,13 +11,16 @@ namespace TrainCheck.TransportApi
 
     public class TransportApi : ITransportApi
     {
+        private readonly StandardHttpClient _standardHttpClient;
         private readonly TransportApiSettings _transportApiSettings;
         private readonly TrainStationSettings _stationSettings;
 
         public TransportApi(
+            StandardHttpClient standardHttpClient,
             TransportApiSettings transportApiSettings, 
             TrainStationSettings stationSettings)
         {
+            _standardHttpClient = standardHttpClient;
             _transportApiSettings = transportApiSettings;
             _stationSettings = stationSettings;
         }
@@ -32,7 +34,7 @@ namespace TrainCheck.TransportApi
 
             var uri = GetUrl(homeCode, destinationCode);
 
-            return GetResponse(uri);
+            return _standardHttpClient.GetAsync<TrainResponse>(uri);
         }
 
         private Uri GetUrl(string homeStation, string destination)
@@ -47,23 +49,6 @@ namespace TrainCheck.TransportApi
                            $"&calling_at={destination}&from_offset=PT00:{walkingTime}:00&train_status=passenger";
 
             return new Uri(endpoint);
-        }
-
-        private static TrainResponse GetResponse(Uri uri)
-        {
-            Xray.Begin("TransportApi");
-
-            Logger.Log($"Sending transportApi request: {uri}");
-
-            var response = new HttpClient().GetAsync(uri).Result;
-
-            Xray.End();
-
-            Logger.Log($"Received http response. Response status code: {response.StatusCode}");
-
-            var responseContent = response.Content.ReadAsStringAsync().Result;
-
-            return JsonConvert.DeserializeObject<TrainResponse>(responseContent);
         }
     }
 }

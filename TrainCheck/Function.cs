@@ -2,6 +2,7 @@ using Alexa.NET.Request;
 using Alexa.NET.Response;
 using Amazon.Lambda.Core;
 using TrainCheck.Alexa;
+using TrainCheck.Infrastructure;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 

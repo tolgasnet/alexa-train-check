@@ -3,6 +3,7 @@ using System.Linq;
 using Alexa.NET;
 using Alexa.NET.Response;
 using TrainCheck.Config;
+using TrainCheck.Infrastructure;
 using TrainCheck.TransportApi;
 
 namespace TrainCheck.Alexa

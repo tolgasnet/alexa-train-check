@@ -1,6 +1,6 @@
 ﻿using Amazon.XRay.Recorder.Core;
 
-namespace TrainCheck
+namespace TrainCheck.Infrastructure
 {
     public static class Xray
     {

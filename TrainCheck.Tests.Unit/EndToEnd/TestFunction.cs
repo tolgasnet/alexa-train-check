@@ -2,6 +2,7 @@
 using Alexa.NET.Response;
 using Amazon.Lambda.Core;
 using TrainCheck.Alexa;
+using TrainCheck.Infrastructure;
 
 namespace TrainCheck.Tests.EndToEnd
 {
