@@ -35,8 +35,7 @@ namespace TrainCheck.Tests.EndToEnd
             var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
 
             speech.Should().NotBeNull();
-            speech.Ssml.Should().StartWith("<speak>Your next trains to blackfriars are at:");
-            speech.Ssml.Should().EndWith("</speak>");
+            speech.Ssml.Should().Be("<speak>Your next trains to blackfriars are at: 13:00, 13:15, 13:45</speak>");
         }
 
         [Fact]
@@ -70,8 +69,7 @@ namespace TrainCheck.Tests.EndToEnd
             var speech = response.Response.OutputSpeech as SsmlOutputSpeech;
 
             speech.Should().NotBeNull();
-            speech.Ssml.Should().StartWith("<speak>Your next trains to victoria are at:");
-            speech.Ssml.Should().EndWith("</speak>");
+            speech.Ssml.Should().Be("<speak>Your next trains to victoria are at: 13:00, 13:15, 13:45</speak>");
         }
     }
 }

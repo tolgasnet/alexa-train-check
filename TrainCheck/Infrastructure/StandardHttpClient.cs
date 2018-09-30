@@ -4,7 +4,12 @@ using Newtonsoft.Json;
 
 namespace TrainCheck.Infrastructure
 {
-    public class StandardHttpClient
+    public interface IStandardHttpClient
+    {
+        T GetAsync<T>(Uri uri) where T: class;
+    }
+
+    public class StandardHttpClient : IStandardHttpClient
     {
         private readonly HttpClient _httpClient;
 
@@ -13,7 +18,7 @@ namespace TrainCheck.Infrastructure
             _httpClient = httpClient;
         }
 
-        public T GetAsync<T>(Uri uri)
+        public T GetAsync<T>(Uri uri) where T : class
         {
             Xray.Begin(typeof(T).Name);
 

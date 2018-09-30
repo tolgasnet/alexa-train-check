@@ -11,13 +11,13 @@ namespace TrainCheck.TransportApi
 
     public class TransportApi : ITransportApi
     {
-        private readonly StandardHttpClient _standardHttpClient;
+        private readonly IStandardHttpClient _standardHttpClient;
         private readonly TransportApiSettings _transportApiSettings;
         private readonly TrainStationSettings _stationSettings;
 
         public TransportApi(
-            StandardHttpClient standardHttpClient,
-            TransportApiSettings transportApiSettings, 
+            IStandardHttpClient standardHttpClient,
+            TransportApiSettings transportApiSettings,
             TrainStationSettings stationSettings)
         {
             _standardHttpClient = standardHttpClient;

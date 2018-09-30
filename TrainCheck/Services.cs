@@ -14,8 +14,9 @@ namespace TrainCheck
     {
         public static void Bind(IServiceCollection services, Action<IServiceCollection> additionalBindings)
         {
-            services.AddScoped<IAlexaSpeech, AlexaSpeech>();
-            services.AddScoped<ITransportApi, TransportApi.TransportApi>();
+            services.AddTransient<IAlexaSpeech, AlexaSpeech>();
+            services.AddTransient<ITransportApi, TransportApi.TransportApi>();
+            services.AddTransient<IStandardHttpClient, StandardHttpClient>();
 
             services.AddTransient<AlexaSkill>();
 
@@ -28,8 +29,6 @@ namespace TrainCheck
             services.AddSingleton<TrainStationSettings>(configuration, "TrainStations");
             services.AddSingleton<TransportApiSettings>(configuration, "TransportApi",
                 t => t.AppKey = configuration.GetValue<string>("Env_TransportApi_AppKey"));
-
-            services.AddHttpClient<StandardHttpClient>();
 
             AWSXRayRecorder.InitializeInstance(configuration);
 
