@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TrainCheck.Alexa;
 using TrainCheck.Infrastructure;
 
-namespace TrainCheck.Tests.EndToEnd
+namespace TrainCheck.Tests.Component
 {
     public class TestFunction
     {

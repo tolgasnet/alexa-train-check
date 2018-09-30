@@ -2,7 +2,7 @@
 using TrainCheck.Infrastructure;
 using TrainCheck.TransportApi;
 
-namespace TrainCheck.Tests.EndToEnd
+namespace TrainCheck.Tests.Component
 {
     public class MockHttpClient : IStandardHttpClient
     {

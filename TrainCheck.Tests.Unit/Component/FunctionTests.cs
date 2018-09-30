@@ -6,7 +6,7 @@ using Amazon.Lambda.TestUtilities;
 using FluentAssertions;
 using Xunit;
 
-namespace TrainCheck.Tests.EndToEnd
+namespace TrainCheck.Tests.Component
 {
     public class FunctionTests
     {
